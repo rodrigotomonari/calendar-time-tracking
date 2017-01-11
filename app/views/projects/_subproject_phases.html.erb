@@ -1,0 +1,6 @@
+<div class="nested-fields col-xs-11 col-xs-offset-1">
+  <h2>Fase</h2>
+  <%= f.association :phase, collection: Phase.order(:name) %>
+  <%= f.input :estimated_hours %>
+  <%= link_to_remove_association 'Remover', f, class: 'btn btn-danger' %>
+</div>

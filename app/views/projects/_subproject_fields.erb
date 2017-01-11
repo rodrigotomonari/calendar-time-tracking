@@ -1,0 +1,18 @@
+<div class="col-xs-11 col-xs-offset-1 nested-fields">
+  <div class="nested-fields__content">
+    <h2>Subprojeto</h2>
+    <%= f.input :name %>
+    <%= f.input :status %>
+    <%= link_to_remove_association 'Remover', f, class: 'btn btn-danger' %>
+  </div>
+
+  <div class="row row-line">
+    <%= f.simple_fields_for :subproject_phases do |subproject_phase| %>
+        <%= render 'subproject_phases', f: subproject_phase %>
+    <% end %>
+
+    <div class="col-xs-12 links">
+      <%= link_to_add_association 'Adicionar Fase', f, :subproject_phases, partial: 'subproject_phases', class: 'btn btn-warning' %>
+    </div>
+  </div>
+</div>

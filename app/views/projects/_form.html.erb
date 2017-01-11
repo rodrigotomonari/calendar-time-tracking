@@ -1,0 +1,28 @@
+<%= simple_form_for(@project) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :name %>
+      <%= f.association :client %>
+      <%= f.input :color %>
+      <%= f.input :color_border %>
+      <%= f.input :status %>
+
+      <div class="row row-line">
+        <%= f.simple_fields_for :subprojects do |subproject| %>
+            <%= render 'subproject_fields', f: subproject %>
+        <% end %>
+
+        <div class="links col-xs-12">
+          <%= link_to_add_association 'Adicionar Subprojeto', f, :subprojects, partial: 'subproject_fields', class: 'btn btn-warning' %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="form-actions">
+      <%= f.button :submit, class: 'btn btn-primary' %>
+      <%= link_to 'Voltar', projects_path, class: 'btn btn-default' %>
+    </div>
+<% end %>

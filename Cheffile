@@ -1,0 +1,8 @@
+site "http://community.opscode.com/api/v1"
+
+cookbook 'mysql', '5.5.3'
+cookbook 'ruby_build'
+cookbook 'nodejs'
+cookbook 'vim'
+cookbook 'apt'
+cookbook 'chef_rvm', '~> 1.0.5'

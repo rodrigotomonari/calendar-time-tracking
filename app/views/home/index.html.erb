@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-10">
+      <div id="calendar"></div>
+    </div>
+    <div class="col-xs-2">
+      <div id="projects">
+        <ul>
+          <% @projects.each do |project| %>
+              <li>
+
+                  <%= project.name %>
+                <ul>
+                  <% project.subprojects.each do |subproject| %>
+                      <li>
+                          <%= subproject.name %>
+                        <ul>
+                          <% subproject.subproject_phases.each do |subproject_phase| %>
+                              <li>
+                                <%= content_tag :i, subproject_phase.phase.name, class: 'js-phases file',
+                                                data:                                   {
+                                                  'subproject-phase-id' => subproject_phase.id,
+                                                  'title'               => subproject_phase.title,
+                                                  'color'               => subproject_phase.color,
+                                                  'phase'               => subproject_phase.phase.name,
+                                                  'subproject'          => subproject_phase.subproject.name,
+                                                  'project'             => subproject_phase.subproject.project.name
+                                                } %>
+                              </li>
+                          <% end %>
+                        </ul>
+                      </li>
+                  <% end %>
+                </ul>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
