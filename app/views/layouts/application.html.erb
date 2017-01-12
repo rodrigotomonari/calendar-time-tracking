@@ -27,17 +27,32 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
-            <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="<%= projects_path %>">Projetos</a></li>
-            <li><a href="<%= phases_path %>">Fases</a></li>
-            <li><a href="<%= clients_path %>">Clientes</a></li>
-          </ul>
-        </li>
+        <li>
+          <a href="<%= edit_user_registration_path %>">Profile</a></li>
+        <% if current_user.admin? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                Visualizar como
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <% users_list.each do |user| %>
+                    <li>
+                      <%= link_to user.name, root_path(user: user.id) %>
+                    </li>
+                <% end %>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="<%= projects_path %>">Projetos</a></li>
+                <li><a href="<%= phases_path %>">Fases</a></li>
+                <li><a href="<%= clients_path %>">Clientes</a></li>
+                <li><a href="<%= profiles_path %>">Usuários</a></li>
+              </ul>
+            </li>
+        <% end %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
@@ -53,7 +68,9 @@
   <%= yield %>
 </div>
 
+<%= yield :before_javascript %>
 <%= javascript_include_tag 'application' %>
+<%= yield :javascript %>
 
 </body>
 </html>

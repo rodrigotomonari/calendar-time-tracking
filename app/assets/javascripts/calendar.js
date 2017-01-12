@@ -16,61 +16,69 @@ $(document).ready(function () {
     }
   });
 
-  $("#projects").fancytree({
-    extensions: ["dnd", "persist", "filter"],
-    quicksearch: true,
-    source: {
-      url: "/api/projects/open",
-      cache: false
-    },
-    dnd: {
-      smartRevert: false,    // set draggable.revert = true if drop was rejected
-      draggable: {
-        zIndex: 999,
-        appendTo: "body",
-        helper: draggable_helper
-      },
-      dragStart: function () {
-        return true;
-      }
-    }
-  });
+  $('.js-tree').each(function () {
+    var $container = $(this);
+    var $tree_content = $container.find('.tree-content');
+    var $input = $container.find('.tree-filter');
+    var tree;
 
-  $("#projects-recents").fancytree({
-    extensions: ["dnd", "persist"],
-    source: {
-      url: "/api/projects/recents",
-      cache: false
-    },
-    dnd: {
-      smartRevert: false,    // set draggable.revert = true if drop was rejected
-      draggable: {
-        zIndex: 999,
-        appendTo: "body",
-        helper: draggable_helper
+    $tree_content.fancytree({
+      extensions: ["dnd", "persist", "filter"],
+      quicksearch: true,
+      clickFolderMode: 2,
+      focusOnSelect: false,
+      selectMode: 1,
+      create: function(){
+        $container.find(".fancytree-container").addClass("fancytree-connectors");
       },
-      dragStart: function () {
-        return true;
+      source: {
+        url: $container.data('tree-source'),
+        cache: false
+      },
+      persist: {
+        overrideSource: true,
+        cookiePrefix: 'fancytree-' + $container.data('tree-name') + '-',
+        store: "cookie",     // 'cookie': use cookie, 'local': use localStore, 'session': use sessionStore
+        types: "active expanded focus selected"  // which status types to store
+      },
+      dnd: {
+        smartRevert: false,
+        draggable: {
+          zIndex: 999,
+          appendTo: "body",
+          helper: draggable_helper
+        },
+        dragStart: function () {
+          return true;
+        }
       }
-    }
-  });
+    });
 
-  $("#projects-closed").fancytree({
-    extensions: ["dnd", "filter"],
-    source: {
-      url: "/api/projects/closed",
-      cache: false
-    },
-    dnd: {
-      smartRevert: false,    // set draggable.revert = true if drop was rejected
-      draggable: {
-        zIndex: 999,
-        appendTo: "body",
-        helper: draggable_helper
-      },
-      dragStart: function () {
-        return true;
-      }
+    tree = $tree_content.fancytree("getTree");
+
+    if($input.length > 0) {
+      $input.keyup(function (e) {
+        var match = $(this).val();
+
+        if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
+          tree.clearFilter();
+          $input.val('');
+          return;
+        }
+
+        tree.filterBranches.call(tree, match, {
+          autoApply: true,
+          autoExpand: true,
+          counter: false,
+          fuzzy: true,
+          hideExpanders: true,
+          highlight: true,
+          nodata: true,
+          mode: 'hide'
+        });
+        // $("button#btnResetSearch").attr("disabled", false);
+        // $("span#matches").text("(" + n + " matches)");
+      });
     }
   });
 
@@ -127,7 +135,12 @@ $(document).ready(function () {
     editable: true,
     droppable: true,
     forceEventDuration: true,
-    events: '/api/tasks',
+    events: {
+      url: '/api/tasks',
+      data: {
+        user_id: app.user_id
+      }
+    },
     eventResize: function (event) {
       $calendar.trigger('busycal.event_update', [event]);
     },
@@ -140,7 +153,6 @@ $(document).ready(function () {
     },
     eventClick: function (event) {
       open_event = event;
-
       $dialog.find('.view-dialog-project span').text(event.project);
       $dialog.find('.view-dialog-subproject span').text(event.subproject);
       $dialog.find('.view-dialog-phase span').text(event.phase);
@@ -148,6 +160,10 @@ $(document).ready(function () {
 
       $dialog.dialog('open');
     }
+  });
+
+  $(window).resize(function(){
+    $calendar.fullCalendar('option', 'height', $(window).height() - $('.navbar').outerHeight(true));
   });
 
   $calendar.on('busycal.event_create', function (e, event) {
@@ -196,7 +212,8 @@ $(document).ready(function () {
       data: {
         subproject_phase_id: event.subproject_phase_id,
         start: event.start.format(),
-        end: event.end.format()
+        end: event.end.format(),
+        user_id: app.user_id
       },
       success: function (data) {
         event.id = data.task.id;
@@ -214,7 +231,8 @@ $(document).ready(function () {
       data: {
         start: event.start.format(),
         end: event.end.format(),
-        request_control: new Date().getTime()
+        request_control: new Date().getTime(),
+        user_id: app.user_id
       },
       success: function (data) {
         $calendar.trigger('busycal.event_updated', [event, data])
@@ -227,6 +245,9 @@ $(document).ready(function () {
     $.ajax({
       url: '/api/tasks/' + event.id,
       type: 'delete',
+      data: {
+        user_id: app.user_id
+      },
       success: function (data) {
         $calendar.trigger('busycal.event_destroyed', [event, data])
       }

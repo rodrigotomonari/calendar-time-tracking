@@ -1,8 +1,14 @@
 module Api
   class TasksController < ActionController::Base
     def index
+      if current_user.admin?
+        user_id = params[:user_id]
+      else
+        user_id = current_user.id
+      end
+
       @tasks = Task.includes(subproject_phase: [:phase, subproject: [project: [:client]]])
-                 .where(user_id: current_user.id)
+                 .where(user_id: user_id)
                  .where('started_at >= ?', params[:start])
                  .where('ended_at <= ?', params[:end])
     end

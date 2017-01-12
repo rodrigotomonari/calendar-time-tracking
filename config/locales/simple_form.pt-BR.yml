@@ -1,0 +1,34 @@
+pt-BR:
+  simple_form:
+    "yes": 'Sim'
+    "no": 'Não'
+    required:
+      text: 'obrigatório'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Por favor, verifique os errors abaixo:"
+    labels:
+      defaults:
+        name: 'Nome'
+        phase: 'Fase'
+        estimated_hours: 'Horas estimadas'
+      project:
+        client: 'Cliente'
+        color: 'Cor'
+
+  helpers:
+    submit:
+      client:
+        create: 'Criar cliente'
+        update: 'Atualizar cliente'
+      project:
+        create: 'Criar projeto'
+        update: 'Atualizar projeto'
+      phase:
+        create: 'Criar fase'
+        update: 'Atualizar fase'
+
+

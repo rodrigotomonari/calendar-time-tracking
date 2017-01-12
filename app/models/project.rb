@@ -6,7 +6,7 @@ class Project < ApplicationRecord
 
   accepts_nested_attributes_for :subprojects, allow_destroy: true, reject_if: :all_blank
 
-  enumerize :status, in: [:active, :inactive]
+  enumerize :status, in: [:active, :inactive], default: :active
 
   validates :name, presence: true, uniqueness: true
   validates :client, presence: true

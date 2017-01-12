@@ -1,28 +1,54 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-10">
+
+      <% if @user.present? %>
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Warning!</strong> Visualizando agenda de <%= @user.name %>.
+            <p>
+              <%= link_to 'Clique aqui para voltar para sua agênda', root_path %>
+            </p>
+          </div>
+      <% end %>
+
       <div id="calendar"></div>
     </div>
     <div class="col-xs-2">
-      <h4>Utilizados Recentemente</h4>
-      <div id="projects-recents"></div>
 
-      <h4>Projetos Ativos</h4>
-      <input name="search" placeholder="Buscar..." autocomplete="off">
-      <div id="projects"></div>
+      <div class="js-tree" data-tree-source="/api/projects/recents" data-tree-name="recents">
+        <h4>Utilizados Recentemente</h4>
+        <div class="tree-content"></div>
+      </div>
 
-      <h4>Todos Projetos</h4>
-      <div id="projects-closed"></div>
+      <div class="js-tree" data-tree-source="/api/projects/open" data-tree-name="open">
+        <h4>Projetos Ativos</h4>
+        <input name="search" class="tree-filter form-control" placeholder="Buscar..." autocomplete="off">
+        <div class="tree-content"></div>
+      </div>
+
+      <div class="js-tree" data-tree-source="/api/projects/closed" data-tree-name="closed">
+        <h4>Todos Projetos</h4>
+        <input name="search" class="tree-filter form-control" placeholder="Buscar..." autocomplete="off">
+        <div class="tree-content"></div>
+      </div>
 
     </div>
   </div>
 </div>
 
 <div id="view-dialog" title="Info">
-    <input type="hidden" class="view-dialog-id" />
-    <div class="view-dialog-project">Projeto: <span></span></div>
-    <div class="view-dialog-subproject">SubProjeto: <span></span></div>
-    <div class="view-dialog-phase">Fase: <span></span></div>
-    <div class="view-dialog-client">Cliente: <span></span></div>
-    <div class="view-dialog-hour"><span></span></div>
+  <input type="hidden" class="view-dialog-id"/>
+  <div class="view-dialog-project">Projeto: <span></span></div>
+  <div class="view-dialog-subproject">SubProjeto: <span></span></div>
+  <div class="view-dialog-phase">Fase: <span></span></div>
+  <div class="view-dialog-client">Cliente: <span></span></div>
+  <div class="view-dialog-hour"><span></span></div>
 </div>
+
+<% content_for :before_javascript do %>
+<script>
+  var app = app || {};
+  app.user_id = <%= @user.present? ? @user.id : current_user.id %>;
+</script>
+<% end %>

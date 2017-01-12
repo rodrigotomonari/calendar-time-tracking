@@ -20,4 +20,5 @@
 //= require jquery-ui/jquery-ui
 //= require js-cookie/js.cookie
 //= require fancytree/jquery.fancytree-all
+//= require bootstrap-colorpicker/bootstrap-colorpicker
 //= require_tree .

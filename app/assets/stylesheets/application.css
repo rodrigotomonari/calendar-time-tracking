@@ -18,6 +18,7 @@
  *= require jquery-ui/jquery-ui
  *= require jquery-ui/jquery-ui.structure
  *= require jquery-ui/jquery-ui.theme
+ *= require bootstrap-colorpicker/bootstrap-colorpicker
  *= require_tree .
  *= require_self
  */

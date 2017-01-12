@@ -10,10 +10,13 @@ Rails.application.routes.draw do
     delete 'tasks/:id', to: 'tasks#destroy', as: nil
   end
 
+  resources :profiles
   resources :subprojects
   resources :projects
   resources :phases
   resources :clients
+
+  get 'reports', to: 'reports#index'
 
   devise_for :users, skip: [:registrations], controllers: {
     sessions:  'users/sessions',

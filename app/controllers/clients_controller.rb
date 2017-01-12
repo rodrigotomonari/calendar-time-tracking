@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    @clients = Client.order(name: :asc)
   end
 
   # GET /clients/1
@@ -28,7 +28,7 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to @client, notice: 'Client was successfully created.' }
+        format.html { redirect_to clients_url, notice: 'Cliente criado com sucesso!' }
         format.json { render :show, status: :created, location: @client }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to @client, notice: 'Client was successfully updated.' }
+        format.html { redirect_to clients_url, notice: 'Cliente atualizado com sucesso!' }
         format.json { render :show, status: :ok, location: @client }
       else
         format.html { render :edit }
