@@ -13,6 +13,8 @@
  *= require 'fullcalendar/fullcalendar'
 // *= require jstree/style
  *= require fancytree/skin-win8/ui.fancytree
+ *= require bootstrap/bootstrap
+ *= require bootstrap/bootstrap-theme
  *= require jquery-ui/jquery-ui
  *= require jquery-ui/jquery-ui.structure
  *= require jquery-ui/jquery-ui.theme

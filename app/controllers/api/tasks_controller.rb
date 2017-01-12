@@ -1,58 +1,51 @@
 module Api
   class TasksController < ActionController::Base
     def index
-      @tasks = Task.includes(subproject_phase: [:phase, subproject: [:project]])
+      @tasks = Task.includes(subproject_phase: [:phase, subproject: [project: [:client]]])
                  .where(user_id: current_user.id)
                  .where('started_at >= ?', params[:start])
                  .where('ended_at <= ?', params[:end])
     end
 
     def create
-      @task = Task.create({
+      @task = Task.new({
                             user_id:             current_user.id,
                             subproject_phase_id: params[:subproject_phase_id],
                             started_at:          params[:start],
-                            ended_at:            params[:end]
+                            ended_at:            params[:end],
+                            request_control:     0
                           })
-      if @task
+      if @task.save
         render json: {
           status: 'ok',
           task:   {
             id: @task.id
-          }
+          }, status: :created
         }
       else
-        render json: {
-          status: 'error'
-        }
+        render json: @task.errors, status: :unprocessable_entity
       end
     end
 
     def update
       @task = Task.find(params[:id])
-      if @task && @task.request_control < params[:request_control].to_i
+      if @task && @task.request_control.to_i < params[:request_control].to_i
         @task.started_at      = params[:start]
         @task.ended_at        = params[:end]
         @task.request_control = params[:control]
-        if @task.save
-          render json: {
-            status: 'ok'
-          }
-        else
-          render json: {
-            status: 'error'
-          }
-        end
-      else
+        @task.save!
+
         render json: {
-          status: 'error'
+          status: 'ok'
         }
       end
     end
 
     def destroy
-      @task = Task.find(params[:id])
-      @task.delete
+      @task = Task.destroy(params[:id])
+      render json: {
+        status: 'ok'
+      }
     end
   end
 end

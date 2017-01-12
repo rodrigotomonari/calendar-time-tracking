@@ -16,7 +16,8 @@
 //= require momentjs/moment.min
 //= require fullcalendar/fullcalendar
 //= require fullcalendar/locale/pt-br
-///= require jstree/jstree
+//= require bootstrap/bootstrap
 //= require jquery-ui/jquery-ui
+//= require js-cookie/js.cookie
 //= require fancytree/jquery.fancytree-all
 //= require_tree .

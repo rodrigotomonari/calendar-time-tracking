@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   namespace :api do
+    get 'projects/fancytree_recents', to: 'projects#fancytree_recents', defaults: { format: 'json' }
+    get 'projects/:status', to: 'projects#fancytree', defaults: { format: 'json' }
     get 'tasks', to: 'tasks#index', defaults: { format: 'json' }
     post 'tasks', to: 'tasks#create'
     patch 'tasks/:id', to: 'tasks#update', as: nil

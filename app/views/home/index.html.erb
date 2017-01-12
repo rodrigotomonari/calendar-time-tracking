@@ -4,38 +4,25 @@
       <div id="calendar"></div>
     </div>
     <div class="col-xs-2">
-      <div id="projects">
-        <ul>
-          <% @projects.each do |project| %>
-              <li>
+      <h4>Utilizados Recentemente</h4>
+      <div id="projects-recents"></div>
 
-                  <%= project.name %>
-                <ul>
-                  <% project.subprojects.each do |subproject| %>
-                      <li>
-                          <%= subproject.name %>
-                        <ul>
-                          <% subproject.subproject_phases.each do |subproject_phase| %>
-                              <li>
-                                <%= content_tag :i, subproject_phase.phase.name, class: 'js-phases file',
-                                                data:                                   {
-                                                  'subproject-phase-id' => subproject_phase.id,
-                                                  'title'               => subproject_phase.title,
-                                                  'color'               => subproject_phase.color,
-                                                  'phase'               => subproject_phase.phase.name,
-                                                  'subproject'          => subproject_phase.subproject.name,
-                                                  'project'             => subproject_phase.subproject.project.name
-                                                } %>
-                              </li>
-                          <% end %>
-                        </ul>
-                      </li>
-                  <% end %>
-                </ul>
-              </li>
-          <% end %>
-        </ul>
-      </div>
+      <h4>Projetos Ativos</h4>
+      <input name="search" placeholder="Buscar..." autocomplete="off">
+      <div id="projects"></div>
+
+      <h4>Todos Projetos</h4>
+      <div id="projects-closed"></div>
+
     </div>
   </div>
+</div>
+
+<div id="view-dialog" title="Info">
+    <input type="hidden" class="view-dialog-id" />
+    <div class="view-dialog-project">Projeto: <span></span></div>
+    <div class="view-dialog-subproject">SubProjeto: <span></span></div>
+    <div class="view-dialog-phase">Fase: <span></span></div>
+    <div class="view-dialog-client">Cliente: <span></span></div>
+    <div class="view-dialog-hour"><span></span></div>
 </div>

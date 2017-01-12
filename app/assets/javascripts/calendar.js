@@ -1,18 +1,111 @@
 $(document).ready(function () {
 
-  $("#projects").fancytree({
-    create: function() {
-      console.log('treeCreate');
-      enable_phases_drag();
+  var open_event;
+
+  var $dialog = $('#view-dialog').dialog({
+    autoOpen: false,
+    buttons: {
+      'Duplicar': function () {
+        duplicate_event(open_event);
+        $(this).dialog("close");
+      },
+      'Apagar': function () {
+        destroy_event(open_event);
+        $(this).dialog("close");
+      }
     }
   });
-  // $('#projects').on('init.jstree', function () {
-  //   enable_phases_drag();
-  // }).jstree({
-  //   core: {
-  //     multiple: false
-  //   }
-  // });
+
+  $("#projects").fancytree({
+    extensions: ["dnd", "persist", "filter"],
+    quicksearch: true,
+    source: {
+      url: "/api/projects/open",
+      cache: false
+    },
+    dnd: {
+      smartRevert: false,    // set draggable.revert = true if drop was rejected
+      draggable: {
+        zIndex: 999,
+        appendTo: "body",
+        helper: draggable_helper
+      },
+      dragStart: function () {
+        return true;
+      }
+    }
+  });
+
+  $("#projects-recents").fancytree({
+    extensions: ["dnd", "persist"],
+    source: {
+      url: "/api/projects/recents",
+      cache: false
+    },
+    dnd: {
+      smartRevert: false,    // set draggable.revert = true if drop was rejected
+      draggable: {
+        zIndex: 999,
+        appendTo: "body",
+        helper: draggable_helper
+      },
+      dragStart: function () {
+        return true;
+      }
+    }
+  });
+
+  $("#projects-closed").fancytree({
+    extensions: ["dnd", "filter"],
+    source: {
+      url: "/api/projects/closed",
+      cache: false
+    },
+    dnd: {
+      smartRevert: false,    // set draggable.revert = true if drop was rejected
+      draggable: {
+        zIndex: 999,
+        appendTo: "body",
+        helper: draggable_helper
+      },
+      dragStart: function () {
+        return true;
+      }
+    }
+  });
+
+  function draggable_helper(event) {
+    var sourceNode = $.ui.fancytree.getNode(event.target);
+
+    // Copy description to title because Fancytree already use title and Fullcalendar needs it
+    sourceNode.data.title = sourceNode.data.description;
+
+    // Set event data to container because drop source is the container instead of node
+    $(event.currentTarget).data('event', sourceNode.data);
+
+    var $helper =
+      $('<div class="drag-helper">' +
+        '  <div class="fc-time-grid-event fc-v-event fc-event">' +
+        '    <div class="fc-content">' +
+        '      <div class="fc-title">' + sourceNode.data.description + '</div>' +
+        '    </div>' +
+        '    <div class="fc-bg"></div>' +
+        '   </div>' +
+        '</div>');
+
+    if (sourceNode.data.cor) {
+      $helper.find('.fc-event').css({
+        backgroundColor: sourceNode.data.color
+      });
+    }
+
+    // Attach node reference to helper object
+    $helper.data("ftSourceNode", sourceNode);
+
+    // we return an unconnected element, so `draggable` will add this
+    // to the parent specified as `appendTo` option
+    return $helper;
+  }
 
   var $calendar = $('#calendar').fullCalendar({
     header: {
@@ -41,24 +134,24 @@ $(document).ready(function () {
     eventDrop: function (event) {
       $calendar.trigger('busycal.event_update', [event]);
     },
-    eventReceive: function (_event) {
-      var event = _event;
+    eventReceive: function (event) {
       event.stored = false;
-      $.ajax({
-        url: '/api/tasks',
-        type: 'post',
-        data: {
-          subproject_phase_id: event.subproject_phase_id,
-          start: event.start.format(),
-          end: event.end.format()
-        },
-        success: function (data) {
-          event.id = data.task.id;
-          event.stored = true;
-          $calendar.trigger('busycal.event_created', [event])
-        }
-      });
+      $calendar.trigger('busycal.event_create', [event]);
+    },
+    eventClick: function (event) {
+      open_event = event;
+
+      $dialog.find('.view-dialog-project span').text(event.project);
+      $dialog.find('.view-dialog-subproject span').text(event.subproject);
+      $dialog.find('.view-dialog-phase span').text(event.phase);
+      $dialog.find('.view-dialog-client span').text(event.client);
+
+      $dialog.dialog('open');
     }
+  });
+
+  $calendar.on('busycal.event_create', function (e, event) {
+    create_task_api(event);
   });
 
   $calendar.on('busycal.event_created', function (e, event) {
@@ -80,9 +173,38 @@ $(document).ready(function () {
     }
   });
 
-  $calendar.on('busycal.event_updated', function (_e, event, data) {
+  $calendar.on('busycal.event_destroy', function (_e, _event) {
+    var event = _event;
+    if (event.stored) {
+      destroy_task_api(event);
+    } else {
+      if (typeof event.timeout !== 'undefined') {
+        clearTimeout(event.timeout);
+      }
 
+      event.timeout = setTimeout(function () {
+        $calendar.trigger('busycal.event_destroy', [event]);
+      }, 1000);
+    }
   });
+
+  function create_task_api(_event) {
+    var event = _event;
+    $.ajax({
+      url: '/api/tasks',
+      type: 'post',
+      data: {
+        subproject_phase_id: event.subproject_phase_id,
+        start: event.start.format(),
+        end: event.end.format()
+      },
+      success: function (data) {
+        event.id = data.task.id;
+        event.stored = true;
+        $calendar.trigger('busycal.event_created', [event])
+      }
+    });
+  }
 
   function update_task_api(_event) {
     var event = _event;
@@ -100,48 +222,38 @@ $(document).ready(function () {
     });
   }
 
-
-  function enable_phases_drag() {
-    $('.js-phases').each(function () {
-      // store data so the calendar knows to render an event upon drop
-      $(this).data('event', {
-        title: $.trim($(this).text()),
-        subproject_phase_id: $(this).data('subproject-phase-id'),
-        event_id: null
-      });
-
-      // make the event draggable using jQuery UI
-      $(this).draggable({
-        cursor: "move",
-        zIndex: 999,
-        revert: true,
-        revertDuration: 0,
-        helper: function (event) {
-          var data = $(event.currentTarget).data('event');
-
-          var html =
-            '<div class="drag-helper fc fc-ltr ui-widget">' +
-            '<div class="fc-event fc-event-vert fc-event-draggable fc-event-start fc-event-end ui-draggable ui-resizable">' +
-            '<div class="fc-event-inner">' +
-            '<div class="fc-event-time">&nbsp;</div>' +
-            '<div class="fc-event-title">' +
-            data.title +
-            '</div>' +
-            '</div>' +
-            '<div class="fc-event-bg"></div>' +
-            '<div class="ui-resizable-handle ui-resizable-s">=</div>' +
-            '</div>' +
-            '</div>';
-
-          if (data.cor) {
-            html = $(html).find('.fc-event').css('background-color', '#' + data.cor).css('border-color', '#' + data.cor_borda).end();
-          } else {
-            html = $(html);
-          }
-
-          return html;
-        }
-      });
+  function destroy_task_api(_event) {
+    var event = _event;
+    $.ajax({
+      url: '/api/tasks/' + event.id,
+      type: 'delete',
+      success: function (data) {
+        $calendar.trigger('busycal.event_destroyed', [event, data])
+      }
     });
+  }
+
+  function destroy_event(event) {
+    $calendar.fullCalendar('removeEvents', event._id);
+    $calendar.trigger('busycal.event_destroy', [event])
+  }
+
+  function duplicate_event(event) {
+    var clone = {
+      title: "Clone",
+      client: event.client,
+      phase: event.phase,
+      subproject: event.subproject,
+      project: event.project,
+      subproject_phase_id: event.subproject_phase_id,
+      stored: false,
+      color: event.color,
+      start: event.start,
+      end: event.end,
+      allDay: false
+    };
+
+    var created_event = $calendar.fullCalendar('renderEvent', clone, false);
+    $calendar.trigger('busycal.event_create', [created_event[0]]);
   }
 });
