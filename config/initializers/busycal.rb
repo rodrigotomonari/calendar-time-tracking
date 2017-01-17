@@ -10,5 +10,4 @@ end
 
 Rails.env.on(:production) do
   config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'] }
-  config.assets.digest = true
 end

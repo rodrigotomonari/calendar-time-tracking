@@ -26,7 +26,7 @@ module Api
           status: 'ok',
           task:   {
             id: @task.id
-          }, status: :created
+          }
         }
       else
         render json: @task.errors, status: :unprocessable_entity
