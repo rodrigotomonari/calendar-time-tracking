@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     get '/projects', to: 'reports#projects', as: :reports_projects
     get '/subprojects', to: 'reports#subprojects', as: :reports_subprojects
     get '/users', to: 'reports#users', as: :reports_users
+    get '/projects_users', to: 'reports#projects_users', as: :reports_projects_users
   end
 
   devise_for :users, skip: [:registrations], controllers: {

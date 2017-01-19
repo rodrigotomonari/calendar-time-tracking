@@ -1,0 +1,33 @@
+<%= render 'header' %>
+
+<table class="table table-hover">
+  <% @report.each do |date, users| %>
+      <tr class="success">
+        <td>
+          <strong>
+            <%= l(date.to_date, format: '%B') %>
+          </strong>
+        </td>
+        <td>
+          <strong>
+            <%= l(date.to_date, format: '%Y') %>
+          </strong>
+        </td>
+      </tr>
+
+      <% users.each do |user, projects| %>
+          <tr class="info">
+            <td colspan="2">
+              <%= user %>
+            </td>
+          </tr>
+          <% projects.each do |project| %>
+              <tr>
+                <td><%= project[:name] %></td>
+                <td><%= project[:time].to_f / 3600 %></td>
+              </tr>
+          <% end %>
+      <% end %>
+
+  <% end %>
+</table>

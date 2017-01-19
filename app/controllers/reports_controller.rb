@@ -42,6 +42,42 @@ class ReportsController < ApplicationController
     get_results
   end
 
+  def projects_users
+    @group_by = ['projects.id', 'users.id', 'year(started_at)', 'month(started_at)']
+    @order_by = ['year(started_at) asc', 'month(started_at) asc', 'users.name asc', 'projects.name asc']
+    @select   = ['projects.name', 'users.name', 'sum(time)', 'year(started_at)', 'month(started_at)', 'started_at']
+
+    @results = Task.includes(:user, subproject_phase: [:phase, subproject: [project: [:client]]])
+                 .group(@group_by)
+                 .order(@order_by)
+
+    @results = @results.where('year(tasks.started_at) = ?', params[:year]) if params[:year].present?
+    @results = @results.where('month(tasks.started_at) = ?', params[:month]) if params[:month].present?
+    @results = @results.where('users.id = ?', params[:user]) if params[:user].present?
+
+    @results = @results.pluck(@select.join(', '))
+
+    @report = Hash.new do |hash, key|
+      users = Hash.new do |user, user_key|
+        user[user_key] = Array.new
+      end
+      hash[key] = users
+    end
+
+    @results.each do |result|
+      year = result[3]
+      month = result[4].to_s.rjust(2, '0')
+      user = result[1]
+
+      @report["#{year}-#{month}-01"][user].push({
+                                               name: result[0],
+                                               time: result[2],
+                                             })
+    end
+  end
+
+  private
+
   def get_results
     if params[:group_month].present?
       @select   += ['year(started_at)', 'month(started_at)']
