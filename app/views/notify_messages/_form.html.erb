@@ -4,13 +4,24 @@
     <div class="form-inputs">
       <%= f.input :message %>
     </div>
+
     <ul>
-        <li>- %%username%% | Para colocar o nome da pessoa</li>
-        <li>- %%date%% | Para colocar a data</li>
+        <li>%%username%% | Para colocar o nome da pessoa</li>
+        <li>%%date%% | Para colocar a data</li>
     </ul>
+
+    <br>
 
     <div class="form-actions">
       <%= f.button :submit, class: 'btn btn-primary' %>
       <%= link_to 'Voltar', notify_messages_path, class: 'btn btn-default' %>
     </div>
 <% end %>
+
+
+<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace( 'notify_message_message' );
+</script>

@@ -9,7 +9,6 @@ class NotifyMissingTaskService
       icon_emoji: ':ghost:',
       channel: ENV['SLACK_CHANNEL']
     })
-
   end
 
   def call
@@ -21,7 +20,9 @@ class NotifyMissingTaskService
 
       if tasks.size.zero?
         NotifierMailer.missing_tasks(user, notify_date).deliver_now
-        slack_notifier.ping "@#{user.slackuser} acho que você esqueceu de preencher o Busycal!" if user.slackuser.present?
+        if user.slackuser.present?
+          slack_notifier.ping "<@#{user.slackuser}> acho que você esqueceu de preencher o Busycal do dia #{I18n.l(notify_date, format: '%d de %B de %Y')}!"
+        end
       end
     end
   end
