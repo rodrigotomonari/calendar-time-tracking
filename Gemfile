@@ -38,6 +38,7 @@ gem 'simple_form'
 gem 'cocoon'
 gem 'rails-env'
 gem 'enumerize'
+gem 'premailer-rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri

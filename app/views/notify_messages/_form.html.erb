@@ -1,0 +1,16 @@
+<%= simple_form_for(@notify_message) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :message %>
+    </div>
+    <ul>
+        <li>- %%username%% | Para colocar o nome da pessoa</li>
+        <li>- %%date%% | Para colocar a data</li>
+    </ul>
+
+    <div class="form-actions">
+      <%= f.button :submit, class: 'btn btn-primary' %>
+      <%= link_to 'Voltar', notify_messages_path, class: 'btn btn-default' %>
+    </div>
+<% end %>

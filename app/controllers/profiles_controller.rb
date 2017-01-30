@@ -74,6 +74,6 @@ class ProfilesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:id, :name, :email, :password, :password_confirmation, :admin, :status)
+    params.require(:user).permit(:id, :name, :email, :password, :password_confirmation, :notify_missing_tasks, :admin, :status)
   end
 end

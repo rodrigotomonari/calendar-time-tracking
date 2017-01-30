@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :phases
   resources :clients
+  resources :notify_messages
 
   scope 'reports' do
     get '/', to: 'reports#index', as: :reports
