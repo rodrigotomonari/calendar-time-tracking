@@ -10,6 +10,8 @@
     <th>Nome</th>
     <th>Email</th>
     <th>Admin?</th>
+    <th>Notify?</th>
+    <th>SlackUser</th>
     <th>Status</th>
     <th></th>
   </tr>
@@ -21,6 +23,8 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.admin? %></td>
+        <td><%= user.notify_missing_tasks? %></td>
+        <td><%= user.slackuser %></td>
         <td><%= user.status %></td>
         <td>
           <%= link_to 'Editar', edit_profile_path(user), class: 'btn btn-info btn-sm' %>

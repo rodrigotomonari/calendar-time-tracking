@@ -154,6 +154,7 @@ GEM
     simple_form (3.3.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
+    slack-notifier (2.0.0)
     spring (2.0.0)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -206,6 +207,7 @@ DEPENDENCIES
   rails-env
   sass-rails (~> 5.0)
   simple_form
+  slack-notifier
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

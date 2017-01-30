@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170127215931) do
+ActiveRecord::Schema.define(version: 20170130210354) do
 
   create_table "clients", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20170127215931) do
     t.string   "last_sign_in_ip"
     t.string   "name"
     t.boolean  "notify_missing_tasks",   default: true
+    t.string   "slackuser"
     t.boolean  "admin",                  default: false
     t.string   "status"
     t.datetime "created_at",                             null: false

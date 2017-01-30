@@ -1,8 +1,15 @@
 class NotifyMissingTaskService
-  attr_accessor :notify_date
+  attr_accessor :notify_date, :slack_notifier
 
   def initialize(notify_date)
     self.notify_date = notify_date
+
+    self.slack_notifier = Slack::Notifier.new(ENV['SLACK_HOOK'], {
+      username: 'Busycal',
+      icon_emoji: ':ghost:',
+      channel: ENV['SLACK_CHANNEL']
+    })
+
   end
 
   def call
@@ -12,7 +19,10 @@ class NotifyMissingTaskService
       tasks = user.tasks.where('started_at BETWEEN ? AND ?',
                                notify_date.beginning_of_day, notify_date.end_of_day)
 
-      NotifierMailer.missing_tasks(user, notify_date).deliver_now if tasks.size.zero?
+      if tasks.size.zero?
+        NotifierMailer.missing_tasks(user, notify_date).deliver_now
+        slack_notifier.ping "@#{user.slackuser} acho que você esqueceu de preencher o Busycal!" if user.slackuser.present?
+      end
     end
   end
 end

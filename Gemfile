@@ -39,6 +39,7 @@ gem 'cocoon'
 gem 'rails-env'
 gem 'enumerize'
 gem 'premailer-rails'
+gem 'slack-notifier'
 
 group :development, :test do
   gem 'byebug', platform: :mri
