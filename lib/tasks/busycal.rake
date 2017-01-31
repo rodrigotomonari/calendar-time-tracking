@@ -11,7 +11,7 @@ namespace :busycal do
 
     if notify_date.sunday?
       notify_date -= 2.days
-    elsif date.saturday?
+    elsif notify_date.saturday?
       notify_date -= 1.day
     end
 
