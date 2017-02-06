@@ -24,7 +24,7 @@
           <% projects.each do |project| %>
               <tr>
                 <td><%= project[:name] %></td>
-                <td><%= project[:time].to_f / 3600 %></td>
+                <td><%= number_with_precision(project[:time].to_f / 3600, precision: 2, delimiter: '') %></td>
               </tr>
           <% end %>
       <% end %>

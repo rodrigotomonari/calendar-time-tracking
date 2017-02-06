@@ -28,14 +28,14 @@
             <td><%= result[1] %></td>
             <td><%= result[2] %></td>
             <td><%= result[3] %></td>
-            <td><%= result[4].to_f / 3600 %></td>
+            <td><%= number_with_precision(result[4].to_f / 3600, precision: 2, delimiter: '') %></td>
           </tr>
       <% end %>
       </tbody>
       <tfoot>
       <tr>
         <th colspan="<%= @results.first.size - 1 %>"></th>
-        <th><%= total.to_f / 3600 %></th>
+        <th><%= number_with_precision(total.to_f / 3600, precision: 2, delimiter: '') %></th>
       </tr>
       </tfoot>
   <% end %>
