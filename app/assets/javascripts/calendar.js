@@ -146,13 +146,35 @@ $(document).ready(function () {
       }
     },
     eventResize: function (event) {
+      setTimeout(function(){
+        $('.fc-event').each(function(){
+          if($(this).data('fcSeg').event.id == event.id) {
+            console.log($(this));
+            $(this).css('opacity', 0.5);
+          }
+        });
+      }, 100);
       $calendar.trigger('busycal.event_update', [event]);
     },
     eventDrop: function (event) {
+      setTimeout(function(){
+        $('.fc-event').each(function(){
+          if($(this).data('fcSeg').event.id == event.id) {
+            console.log($(this));
+            $(this).css('opacity', 0.5);
+          }
+        });
+      }, 100);
       $calendar.trigger('busycal.event_update', [event]);
     },
     eventReceive: function (event) {
       event.stored = false;
+      $('.fc-event').each(function(){
+        if($(this).data('fcSeg').event == event) {
+          $(this).css('opacity', 0.5);
+        }
+      });
+
       $calendar.trigger('busycal.event_create', [event]);
     },
     eventClick: function (event) {
@@ -175,7 +197,19 @@ $(document).ready(function () {
   });
 
   $calendar.on('busycal.event_created', function (e, event) {
+    $('.fc-event').each(function(){
+      if($(this).data('fcSeg').event == event) {
+        $(this).css('opacity', 1);
+      }
+    });
+  });
 
+  $calendar.on('busycal.event_updated', function (e, event) {
+    $('.fc-event').each(function(){
+      if($(this).data('fcSeg').event.id == event.id) {
+        $(this).css('opacity', 1);
+      }
+    });
   });
 
   $calendar.on('busycal.event_update', function (_e, _event) {
@@ -223,6 +257,11 @@ $(document).ready(function () {
         event.id = data.task.id;
         event.stored = true;
         $calendar.trigger('busycal.event_created', [event])
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        if(jqXHR.status == 403) {
+          location.reload();
+        }
       }
     });
   }
@@ -240,6 +279,11 @@ $(document).ready(function () {
       },
       success: function (data) {
         $calendar.trigger('busycal.event_updated', [event, data])
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        if(jqXHR.status == 403) {
+          location.reload();
+        }
       }
     });
   }
@@ -254,6 +298,11 @@ $(document).ready(function () {
       },
       success: function (data) {
         $calendar.trigger('busycal.event_destroyed', [event, data])
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        if(jqXHR.status == 403) {
+          location.reload();
+        }
       }
     });
   }

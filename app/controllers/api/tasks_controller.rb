@@ -1,5 +1,5 @@
 module Api
-  class TasksController < ActionController::Base
+  class TasksController < ApiController
     def index
       if current_user.admin?
         user_id = params[:user_id]

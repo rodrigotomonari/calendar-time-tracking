@@ -1,5 +1,5 @@
 module Api
-  class ProjectsController < ActionController::Base
+  class ProjectsController < ApiController
     def fancytree
       @projects = Project.includes(:client, subprojects: [subproject_phases: [:phase]])
                     .order('projects.name', 'subprojects.name', 'phases.name asc')
