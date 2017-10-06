@@ -145,32 +145,32 @@ $(document).ready(function () {
         user_id: app.user_id
       }
     },
-    eventResize: function (event) {
+    eventResize: function (_event) {
+      var event = _event;
       setTimeout(function(){
         $('.fc-event').each(function(){
           if($(this).data('fcSeg').event.id == event.id) {
-            console.log($(this));
             $(this).css('opacity', 0.5);
           }
         });
-      }, 100);
+      }, 10);
       $calendar.trigger('busycal.event_update', [event]);
     },
-    eventDrop: function (event) {
+    eventDrop: function (_event) {
+      var event = _event;
       setTimeout(function(){
         $('.fc-event').each(function(){
           if($(this).data('fcSeg').event.id == event.id) {
-            console.log($(this));
             $(this).css('opacity', 0.5);
           }
         });
-      }, 100);
+      }, 10);
       $calendar.trigger('busycal.event_update', [event]);
     },
     eventReceive: function (event) {
       event.stored = false;
       $('.fc-event').each(function(){
-        if($(this).data('fcSeg').event == event) {
+        if($(this).data('fcSeg').event.id == event.id) {
           $(this).css('opacity', 0.5);
         }
       });
@@ -198,7 +198,7 @@ $(document).ready(function () {
 
   $calendar.on('busycal.event_created', function (e, event) {
     $('.fc-event').each(function(){
-      if($(this).data('fcSeg').event == event) {
+      if($(this).data('fcSeg').event.id == event.id) {
         $(this).css('opacity', 1);
       }
     });
@@ -214,6 +214,7 @@ $(document).ready(function () {
 
   $calendar.on('busycal.event_update', function (_e, _event) {
     var event = _event;
+
     if (event.stored) {
       update_task_api(event);
     } else {
@@ -261,6 +262,9 @@ $(document).ready(function () {
       error: function(jqXHR, textStatus, errorThrown) {
         if(jqXHR.status == 403) {
           location.reload();
+        } else {
+          alert('Erro ao salvar!!!');
+          location.reload();
         }
       }
     });
@@ -282,6 +286,9 @@ $(document).ready(function () {
       },
       error: function(jqXHR, textStatus, errorThrown) {
         if(jqXHR.status == 403) {
+          location.reload();
+        } else {
+          alert('Erro ao salvar!!!');
           location.reload();
         }
       }

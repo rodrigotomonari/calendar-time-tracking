@@ -15,12 +15,12 @@ module Api
 
     def create
       @task = Task.new({
-                            user_id:             current_user.id,
-                            subproject_phase_id: params[:subproject_phase_id],
-                            started_at:          params[:start],
-                            ended_at:            params[:end],
-                            request_control:     0
-                          })
+                         user_id:             current_user.id,
+                         subproject_phase_id: params[:subproject_phase_id],
+                         started_at:          params[:start],
+                         ended_at:            params[:end],
+                         request_control:     0
+                       })
       if @task.save
         render json: {
           status: 'ok',

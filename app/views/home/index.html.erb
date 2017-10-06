@@ -1,7 +1,6 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-10">
-
       <% if @user.present? %>
           <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -11,11 +10,9 @@
             </p>
           </div>
       <% end %>
-
       <div id="calendar"></div>
     </div>
     <div class="col-xs-2">
-
       <div class="js-tree" data-tree-source="/api/projects/recents" data-tree-name="recents">
         <h4>Utilizados Recentemente</h4>
         <div class="tree-content"></div>
@@ -32,7 +29,6 @@
         <input name="search" class="tree-filter form-control" placeholder="Buscar..." autocomplete="off">
         <div class="tree-content"></div>
       </div>
-
     </div>
   </div>
 </div>
