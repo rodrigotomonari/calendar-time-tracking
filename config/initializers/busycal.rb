@@ -1,3 +1,5 @@
+# :nocov:
+
 Rails.env.on(:development) do
   config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'], port: 3000 }
   config.generators.assets = false
@@ -30,3 +32,5 @@ Rails.env.on(:production) do
   }
   config.action_mailer.raise_delivery_errors = false
 end
+
+# :nocov:

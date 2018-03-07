@@ -10,7 +10,5 @@ class Project < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :client, presence: true
-  validates :status, presence: true, inclusion: { in: Subproject.status.values }
-
-
+  validates :status, presence: true, inclusion: { in: Project.status.values }
 end
