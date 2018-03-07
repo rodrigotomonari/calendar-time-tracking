@@ -18,5 +18,4 @@ class Task < ApplicationRecord
   def set_time
     self.time = ended_at - started_at
   end
-
 end

@@ -1,12 +1,11 @@
 namespace :busycal do
-
   desc 'Notify today missing tasks'
-  task :notify_today => :environment do
+  task notify_today: :environment do
     NotifyMissingTaskService.new(DateTime.now).call
   end
 
   desc 'Notify previous weekday missing tasks'
-  task :notify_previous_weekday => :environment do
+  task notify_previous_weekday: :environment do
     notify_date = DateTime.yesterday
 
     if notify_date.sunday?

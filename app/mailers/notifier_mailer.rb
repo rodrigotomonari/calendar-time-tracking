@@ -1,6 +1,6 @@
 class NotifierMailer < ApplicationMailer
   def missing_tasks(user, date)
-    @user    = user
+    @user = user
 
     notify_message = NotifyMessage.offset(rand(NotifyMessage.count)).first
 

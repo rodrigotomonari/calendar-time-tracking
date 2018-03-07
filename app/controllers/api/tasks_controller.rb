@@ -1,26 +1,26 @@
 module Api
   class TasksController < ApiController
     def index
-      if current_user.admin?
-        user_id = params[:user_id]
-      else
-        user_id = current_user.id
-      end
+      user_id = if current_user.admin?
+                  params[:user_id]
+                else
+                  current_user.id
+                end
 
       @tasks = Task.includes(subproject_phase: [:phase, subproject: [project: [:client]]])
-                 .where(user_id: user_id)
-                 .where('started_at >= ?', params[:start])
-                 .where('ended_at <= ?', params[:end])
+                   .where(user_id: user_id)
+                   .where('started_at >= ?', params[:start])
+                   .where('ended_at <= ?', params[:end])
     end
 
     def create
-      @task = Task.new({
-                         user_id:             current_user.id,
-                         subproject_phase_id: params[:subproject_phase_id],
-                         started_at:          params[:start],
-                         ended_at:            params[:end],
-                         request_control:     0
-                       })
+      @task = Task.new(
+        user_id:             current_user.id,
+        subproject_phase_id: params[:subproject_phase_id],
+        started_at:          params[:start],
+        ended_at:            params[:end],
+        request_control:     0
+      )
       if @task.save
         render json: {
           status: 'ok',

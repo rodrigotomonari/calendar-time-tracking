@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-
   before_action :set_form_data
 
   def index
@@ -48,8 +47,8 @@ class ReportsController < ApplicationController
     @select   = ['projects.name', 'users.name', 'sum(time)', 'year(started_at)', 'month(started_at)', 'started_at']
 
     @results = Task.includes(:user, subproject_phase: [:phase, subproject: [project: [:client]]])
-                 .group(@group_by)
-                 .order(@order_by)
+                   .group(@group_by)
+                   .order(@order_by)
 
     @results = @results.where('year(tasks.started_at) = ?', params[:year]) if params[:year].present?
     @results = @results.where('month(tasks.started_at) = ?', params[:month]) if params[:month].present?
@@ -59,7 +58,7 @@ class ReportsController < ApplicationController
 
     @report = Hash.new do |hash, key|
       users = Hash.new do |user, user_key|
-        user[user_key] = Array.new
+        user[user_key] = []
       end
       hash[key] = users
     end
@@ -69,10 +68,10 @@ class ReportsController < ApplicationController
       month = result[4].to_s.rjust(2, '0')
       user = result[1]
 
-      @report["#{year}-#{month}-01"][user].push({
-                                               name: result[0],
-                                               time: result[2],
-                                             })
+      @report["#{year}-#{month}-01"][user].push(
+        name: result[0],
+        time: result[2]
+      )
     end
   end
 
@@ -86,8 +85,8 @@ class ReportsController < ApplicationController
     end
 
     @results = Task.includes(:user, subproject_phase: [:phase, subproject: [project: [:client]]])
-                 .group(@group_by)
-                 .order(@order_by)
+                   .group(@group_by)
+                   .order(@order_by)
 
     @results = @results.where('year(tasks.started_at) = ?', params[:year]) if params[:year].present?
     @results = @results.where('month(tasks.started_at) = ?', params[:month]) if params[:month].present?
@@ -106,10 +105,10 @@ class ReportsController < ApplicationController
     @users    = User.order('name asc').map { |u| [u.name, u.id] }
     @projects = Project.order('name asc').map { |p| [p.name, p.id] }
 
-    if params[:project].present?
-      @subprojects = Subproject.order('name asc').where('project_id = ?', params[:project]).map { |p| [p.name, p.id] }
-    else
-      @subprojects = []
-    end
+    @subprojects = if params[:project].present?
+                     Subproject.order('name asc').where('project_id = ?', params[:project]).map { |p| [p.name, p.id] }
+                   else
+                     []
+                   end
   end
 end

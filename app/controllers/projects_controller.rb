@@ -1,28 +1,21 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: %i[show edit update destroy]
 
   # GET /projects
   # GET /projects.json
   def index
     @projects = Project.joins(:client).order(name: :asc)
 
-    if params[:name].present?
-      @projects = @projects.where('projects.name like ?', "%#{params[:name]}%")
-    end
+    @projects = @projects.where('projects.name like ?', "%#{params[:name]}%") if params[:name].present?
 
-    if params[:client].present?
-      @projects = @projects.where('clients.name like ?', "%#{params[:client]}%")
-    end
+    @projects = @projects.where('clients.name like ?', "%#{params[:client]}%") if params[:client].present?
 
-    if params[:status].present?
-      @projects = @projects.where('projects.status = ?', params[:status])
-    end
+    @projects = @projects.where('projects.status = ?', params[:status]) if params[:status].present?
   end
 
   # GET /projects/1
   # GET /projects/1.json
-  def show
-  end
+  def show; end
 
   # GET /projects/new
   def new
@@ -30,8 +23,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /projects
   # POST /projects.json
@@ -74,6 +66,7 @@ class ProjectsController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_project
     @project = Project.find(params[:id])
@@ -84,17 +77,18 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(
       :id, :name, :client_id, :color, :color_border, :status,
       subprojects_attributes: [
-                                :id,
-                                :name,
-                                :total_estimated_hours,
-                                :status,
-                                :_destroy,
-                                subproject_phases_attributes: [
-                                                                :id,
-                                                                :phase_id,
-                                                                :estimated_hours,
-                                                                :_destroy
-                                                              ]
-                              ])
+        :id,
+        :name,
+        :total_estimated_hours,
+        :status,
+        :_destroy,
+        subproject_phases_attributes: %i[
+          id
+          phase_id
+          estimated_hours
+          _destroy
+        ]
+      ]
+    )
   end
 end

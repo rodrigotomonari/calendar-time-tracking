@@ -64,10 +64,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def resolve_layout
     case action_name
-    when "edit", "update"
-      "application"
+    when 'edit', 'update'
+      'application'
     else
-      "login"
+      'login'
     end
   end
 end

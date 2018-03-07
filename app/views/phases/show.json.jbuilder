@@ -1,1 +1,1 @@
-json.partial! "phases/phase", phase: @phase
+json.partial! 'phases/phase', phase: @phase

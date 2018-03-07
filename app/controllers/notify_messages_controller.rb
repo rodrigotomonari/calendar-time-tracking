@@ -1,19 +1,17 @@
 class NotifyMessagesController < ApplicationController
-  before_action :set_notify_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_notify_message, only: %i[show edit update destroy]
 
   def index
     @notify_messages = NotifyMessage.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @notify_message = NotifyMessage.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @notify_message = NotifyMessage.new(notify_message_params)
@@ -50,11 +48,12 @@ class NotifyMessagesController < ApplicationController
   end
 
   private
-    def set_notify_message
-      @notify_message = NotifyMessage.find(params[:id])
-    end
 
-    def notify_message_params
-      params.require(:notify_message).permit(:message)
-    end
+  def set_notify_message
+    @notify_message = NotifyMessage.find(params[:id])
+  end
+
+  def notify_message_params
+    params.require(:notify_message).permit(:message)
+  end
 end

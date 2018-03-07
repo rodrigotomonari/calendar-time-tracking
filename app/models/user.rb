@@ -7,5 +7,5 @@ class User < ApplicationRecord
 
   has_many :tasks
 
-  enumerize :status, in: [:active, :inactive], default: :active
+  enumerize :status, in: %i[active inactive], default: :active
 end
