@@ -9,6 +9,6 @@ class NotifierMailer < ApplicationMailer
     @message.gsub!('%%username%%', @user.name)
     @message.gsub!('%%date%%', I18n.l(date, format: '%d de %B de %Y'))
 
-    mail(to: @user.email, subject: 'Busycal - Notificação')
+    mail(to: @user.email, subject: 'Calendar Time Tracking - Notificação')
   end
 end
