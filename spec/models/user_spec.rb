@@ -3,11 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'associations' do
+  describe 'associations' do
     it { is_expected.to have_many :tasks }
   end
 
-  context 'enumerize' do
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:name) }
+  end
+
+  describe 'enumerize' do
     it { is_expected.to enumerize(:status) }
   end
 end

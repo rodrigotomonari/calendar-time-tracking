@@ -44,6 +44,8 @@ gem 'slack-notifier'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'dotenv-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -58,6 +60,7 @@ group :development do
 end
 
 group :test do
+  gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 3.1'
   gem 'simplecov', require: false

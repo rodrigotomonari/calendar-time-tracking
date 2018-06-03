@@ -7,5 +7,7 @@ class User < ApplicationRecord
 
   has_many :tasks
 
+  validates :name, presence: true
+
   enumerize :status, in: %i[active inactive], default: :active
 end

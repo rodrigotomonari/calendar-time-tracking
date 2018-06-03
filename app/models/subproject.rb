@@ -1,6 +1,9 @@
 class Subproject < ApplicationRecord
   extend Enumerize
 
+  delegate :color, to: :project
+  delegate :name, to: :project, prefix: true
+
   belongs_to :project
   has_many :subproject_phases, inverse_of: :subproject
   has_many :phases, through: :subproject_phases

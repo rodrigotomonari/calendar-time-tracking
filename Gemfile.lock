@@ -60,6 +60,7 @@ GEM
     concurrent-ruby (1.0.4)
     css_parser (1.4.7)
       addressable
+    database_cleaner (1.7.0)
     debug_inspector (0.0.2)
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -77,6 +78,13 @@ GEM
       activesupport (>= 3.2)
     erubis (2.7.0)
     execjs (2.7.0)
+    factory_bot (4.8.2)
+      activesupport (>= 3.0.0)
+    factory_bot_rails (4.8.2)
+      factory_bot (~> 4.8.2)
+      railties (>= 3.0.0)
+    faker (1.8.7)
+      i18n (>= 0.7)
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -226,9 +234,12 @@ DEPENDENCIES
   bullet
   byebug
   cocoon
+  database_cleaner
   devise
   dotenv-rails
   enumerize
+  factory_bot_rails
+  faker
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
