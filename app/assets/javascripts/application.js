@@ -21,4 +21,5 @@
 //= require js-cookie/js.cookie
 //= require fancytree/jquery.fancytree-all
 //= require bootstrap-colorpicker/bootstrap-colorpicker
+//= require select2/select2
 //= require_tree .
