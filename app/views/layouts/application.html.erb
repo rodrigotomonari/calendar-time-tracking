@@ -17,55 +17,64 @@
 <body>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<%= root_path %>">Calendar Time Tracking</a>
+      <%= link_to 'Calendar Time Tracking', root_path, class: 'navbar-brand' %>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
-          <a href="<%= edit_user_registration_path %>">Profile</a></li>
-        <% if current_user.admin? %>
+          <%= link_to t('profile'), edit_user_registration_path %>
+          <% if current_user.admin? %>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Visualizar como
-                <span class="caret"></span></a>
+              <a href="#"
+                 class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                <%= t('nav_view_as') %>
+                <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
                 <% users_list.each do |user| %>
-                    <li>
-                      <%= link_to user.name, root_path(user: user.id) %>
-                    </li>
+                  <%= content_for :li, link_to(user.name, root_path(user: user.id)) %>
                 <% end %>
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
+              <a href="#"
+                 class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                <%= t('nav_admin') %>
                 <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<%= projects_path %>">Projetos</a></li>
-                <li><a href="<%= phases_path %>">Fases</a></li>
-                <li><a href="<%= clients_path %>">Clientes</a></li>
-                <li><a href="<%= profiles_path %>">Usuários</a></li>
-                <li><a href="<%= reports_path %>">Relatórios</a></li>
-                <li><a href="<%= notify_messages_path %>">Mensagens</a></li>
+                <%= content_tag :li, link_to(t('app.projects'), projects_path) %>
+                <%= content_tag :li, link_to(t('app.phases'), phases_path) %>
+                <%= content_tag :li, link_to(t('app.clients'), clients_path) %>
+                <%= content_tag :li, link_to(t('app.users'), profiles_path) %>
+                <%= content_tag :li, link_to(t('app.reports'), reports_path) %>
+                <%= content_tag :li, link_to(t('app.messages'), notify_messages_path) %>
               </ul>
             </li>
-        <% end %>
+          <% end %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<%= logout_path %>">Logout</a></li>
+        <%= content_tag :li, link_to(t('logout'), logout_path) %>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
 
 <div class="container-fluid">

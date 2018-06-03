@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to edit_project_path(@project), notice: 'Projeto criado com sucesso!' }
+        format.html { redirect_to edit_project_path(@project), notice: t('flash_messages.projects.created') }
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to edit_project_path(@project), notice: 'Projeto atualizado com sucesso!' }
+        format.html { redirect_to edit_project_path(@project), notice: t('flash_messages.projects.updated') }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
-      format.html { redirect_to projects_url, notice: 'Projeto removido com sucesso!' }
+      format.html { redirect_to projects_url, notice: t('flash_messages.projects.destroyed') }
       format.json { head :no_content }
     end
   end

@@ -129,7 +129,7 @@ $(document).ready(function () {
     defaultView: 'agendaWeek',
     nowIndicator: true,
     allDaySlot: false,
-    locale: 'pt-br',
+    locale: 'en',
     timeFormat: 'H:mm',
     slotLabelFormat: 'H:mm',
     slotLabelInterval: '01:00:00',

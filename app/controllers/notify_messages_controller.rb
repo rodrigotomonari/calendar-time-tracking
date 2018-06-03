@@ -18,7 +18,7 @@ class NotifyMessagesController < ApplicationController
 
     respond_to do |format|
       if @notify_message.save
-        format.html { redirect_to notify_messages_url, notice: 'Mensagem criada com sucesso!' }
+        format.html { redirect_to notify_messages_url, notice: t('flash_messages.messages.created') }
         format.json { render :show, status: :created, location: @notify_message }
       else
         format.html { render :new }
@@ -30,7 +30,7 @@ class NotifyMessagesController < ApplicationController
   def update
     respond_to do |format|
       if @notify_message.update(notify_message_params)
-        format.html { redirect_to notify_messages_url, notice: 'Mensagem atualizada com sucesso!' }
+        format.html { redirect_to notify_messages_url, notice: t('flash_messages.messages.updated') }
         format.json { render :show, status: :ok, location: @notify_message }
       else
         format.html { render :edit }
@@ -42,7 +42,7 @@ class NotifyMessagesController < ApplicationController
   def destroy
     @notify_message.destroy
     respond_to do |format|
-      format.html { redirect_to notify_messages_url, notice: 'Mensagem fui removida com sucesso!.' }
+      format.html { redirect_to notify_messages_url, notice: t('flash_messages.messages.destroyed') }
       format.json { head :no_content }
     end
   end

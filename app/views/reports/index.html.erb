@@ -4,39 +4,39 @@
   <thead>
   <tr>
     <% if params[:group_month] %>
-        <th>Ano</th>
-        <th>Mês</th>
+      <th><%= t('year') %></th>
+      <th><%= t('month') %></th>
     <% end %>
-    <th>Projeto</th>
-    <th>Subprojetos</th>
-    <th>Fase</th>
-    <th>Usuário</th>
-    <th>Horas consumidas</th>
+    <th><%= t('app.project') %></th>
+    <th><%= t('app.subproject') %></th>
+    <th><%= t('app.phase') %></th>
+    <th><%= t('app.user') %></th>
+    <th><%= t('hours_spent') %></th>
   </tr>
   </thead>
   <% total = 0 %>
   <% if @results.size > 0 %>
-      <tbody>
-      <% @results.each do |result| %>
-          <% total += result[4] %>
-          <tr>
-            <% if params[:group_month] %>
-                <td><%= result[5] %></td>
-                <td><%= result[6] %></td>
-            <% end %>
-            <td><%= result[0] %></td>
-            <td><%= result[1] %></td>
-            <td><%= result[2] %></td>
-            <td><%= result[3] %></td>
-            <td><%= number_with_precision(result[4].to_f / 3600, precision: 2, delimiter: '') %></td>
-          </tr>
-      <% end %>
-      </tbody>
-      <tfoot>
+    <tbody>
+    <% @results.each do |result| %>
+      <% total += result[4] %>
       <tr>
-        <th colspan="<%= @results.first.size - 1 %>"></th>
-        <th><%= number_with_precision(total.to_f / 3600, precision: 2, delimiter: '') %></th>
+        <% if params[:group_month] %>
+          <td><%= result[5] %></td>
+          <td><%= result[6] %></td>
+        <% end %>
+        <td><%= result[0] %></td>
+        <td><%= result[1] %></td>
+        <td><%= result[2] %></td>
+        <td><%= result[3] %></td>
+        <td><%= number_with_precision(result[4].to_f / 3600, precision: 2, delimiter: '') %></td>
       </tr>
-      </tfoot>
+    <% end %>
+    </tbody>
+    <tfoot>
+    <tr>
+      <th colspan="<%= @results.first.size - 1 %>"></th>
+      <th><%= number_with_precision(total.to_f / 3600, precision: 2, delimiter: '') %></th>
+    </tr>
+    </tfoot>
   <% end %>
 </table>

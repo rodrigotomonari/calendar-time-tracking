@@ -1,23 +1,98 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  app:
+    client: "Client"
+    clients: "Clients"
+    message: "Message"
+    messages: "Messages"
+    phase: "Phase"
+    project: "Project"
+    projects: "Projects"
+    reports: "Reports"
+    subproject: "Subproject"
+    users: "Users"
+    phases: "Phases"
+    user: "User"
+  clients:
+    edit: "Edit client"
+    new: "New client"
+    list: "Clients"
+  messages:
+    edit: "Edit message"
+    new: "New message"
+    list: "Messages"
+  notify_messages:
+    replace_date: "To enter the date"
+    replace_username: "To enter the user name"
+  phases:
+    add: "Add phase"
+    edit: "Edit phase"
+    list: "Phases"
+    new: "Nova fase"
+  users:
+    edit: "Edit user"
+    list: "Users"
+    new: "New user"
+  subprojects:
+    add: "Add subprojeto"
+  projects:
+    edit: "Edit project"
+    new: "New project"
+  active_projects: "Active projects"
+  all_projects: "All projects"
+  back: "Back"
+  color: "Color"
+  delete: "Delete"
+  edit: "Edit"
+  email: "Email"
+  filter: "Filter"
+  is_admin: "Admin?"
+  logout: "Logout"
+  msg_confirm: "Are you sure?"
+  name: "Name"
+  nav_admin: "Admin"
+  nav_view_as: "View as"
+  notification_enabled: "Notify?"
+  placeholder_search: "Search..."
+  profile: "Profile"
+  recently_used: "Recently used"
+  reports:
+    header:
+      group_month: "Group month?"
+      nav_general: "General"
+      nav_clients: "Clients"
+      nav_projects: "Projects"
+      nav_subprojects: "Subprojects"
+      nav_users: "Users"
+      nav_projects_users: "Projects / Users"
+  reset: "Reset"
+  return_to_your_agenda: "Click here to return to your agenda"
+  slack_user: "SlackUser"
+  status: "Status"
+  visiting_agenda_of: "Visiting agenda of %{user}."
+  warning: "Warning!"
+  year: "Year"
+  month: "Month"
+  day: "Day"
+  hours_spent: "Hours spent"
+  flash_messages:
+    clients:
+      created: "Client created successfully!"
+      updated: "Client updated successfully!"
+      destroyed: "Client destroyed successfully!"
+    messages:
+      created: "Message created successfully!"
+      updated: "Message updated successfully!"
+      destroyed: "Message destroyed successfully!"
+    projects:
+      created: "Project created successfully!"
+      updated: "Project updated successfully!"
+      destroyed: "Project destroyed successfully!"
+    users:
+      created: "User created successfully!"
+      updated: "User updated successfully!"
+      destroyed: "User destroyed successfully!"
+    phases:
+      created: "Phase created successfully!"
+      updated: "Phase updated successfully!"
+      destroyed: "Phase destroyed successfully!"
+

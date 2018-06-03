@@ -4,33 +4,33 @@
   <thead>
   <tr>
     <% if params[:group_month] %>
-        <th>Ano</th>
-        <th>Mês</th>
+      <th><%= t('year') %></th>
+      <th><%= t('month') %></th>
     <% end %>
-    <th>Cliente</th>
-    <th>Horas consumidas</th>
+    <th><%= t('app.client') %></th>
+    <th><%= t('hours_spent') %></th>
   </tr>
   </thead>
   <% total = 0 %>
   <% if @results.size > 0 %>
-      <tbody>
-      <% @results.each do |result| %>
-          <% total += result[1] %>
-          <tr>
-            <% if params[:group_month] %>
-                <td><%= result[2] %></td>
-                <td><%= result[3] %></td>
-            <% end %>
-            <td><%= result[0] %></td>
-            <td><%= number_with_precision(result[1].to_f / 3600, precision: 2, delimiter: '') %></td>
-          </tr>
-      <% end %>
-      </tbody>
-      <tfoot>
+    <tbody>
+    <% @results.each do |result| %>
+      <% total += result[1] %>
       <tr>
-        <th colspan="<%= @results.first.size - 1 %>"></th>
-        <th><%= number_with_precision(total.to_f / 3600, precision: 2, delimiter: '') %></th>
+        <% if params[:group_month] %>
+          <td><%= result[2] %></td>
+          <td><%= result[3] %></td>
+        <% end %>
+        <td><%= result[0] %></td>
+        <td><%= number_with_precision(result[1].to_f / 3600, precision: 2, delimiter: '') %></td>
       </tr>
-      </tfoot>
+    <% end %>
+    </tbody>
+    <tfoot>
+    <tr>
+      <th colspan="<%= @results.first.size - 1 %>"></th>
+      <th><%= number_with_precision(total.to_f / 3600, precision: 2, delimiter: '') %></th>
+    </tr>
+    </tfoot>
   <% end %>
 </table>

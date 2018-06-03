@@ -6,15 +6,15 @@
     </div>
 
     <ul>
-        <li>%%username%% | Para colocar o nome da pessoa</li>
-        <li>%%date%% | Para colocar a data</li>
+        <li>%%username%% | <%= t('notify_messages.replace_username') %></li>
+        <li>%%date%% | <%= t('notify_messages.replace_date') %> </li>
     </ul>
 
     <br>
 
     <div class="form-actions">
       <%= f.button :submit, class: 'btn btn-primary' %>
-      <%= link_to 'Voltar', notify_messages_path, class: 'btn btn-default' %>
+      <%= link_to t('back'), notify_messages_path, class: 'btn btn-default' %>
     </div>
 <% end %>
 

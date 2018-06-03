@@ -1,19 +1,19 @@
 <%= simple_form_for(@user, url: @user.new_record? ? profiles_path : profile_path(@user)) do |f| %>
-    <%= f.error_notification %>
+  <%= f.error_notification %>
 
-    <div class="form-inputs">
-      <%= f.input :name %>
-      <%= f.input :email %>
-      <%= f.input :password %>
-      <%= f.input :password_confirmation %>
-      <%= f.input :status %>
-      <%= f.input :slackuser %>
-      <%= f.input :notify_missing_tasks, as: :boolean %>
-      <%= f.input :admin, as: :boolean %>
-    </div>
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%= f.input :password %>
+    <%= f.input :password_confirmation %>
+    <%= f.input :status %>
+    <%= f.input :slackuser %>
+    <%= f.input :notify_missing_tasks, as: :boolean %>
+    <%= f.input :admin, as: :boolean %>
+  </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, class: 'btn btn-primary' %>
-      <%= link_to 'Voltar', profiles_path, class: 'btn btn-default' %>
-    </div>
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to t('back'), profiles_path, class: 'btn btn-default' %>
+  </div>
 <% end %>

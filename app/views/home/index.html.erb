@@ -2,31 +2,31 @@
   <div class="row">
     <div class="col-xs-10">
       <% if @user.present? %>
-          <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Warning!</strong> Visualizando agenda de <%= @user.name %>.
-            <p>
-              <%= link_to 'Clique aqui para voltar para sua agênda', root_path %>
-            </p>
-          </div>
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong><%= t('warning') %></strong> <%= t('visiting_agenda_of', name: @user.name) %>
+          <p>
+            <%= link_to t('return_to_your_agenda'), root_path %>
+          </p>
+        </div>
       <% end %>
       <div id="calendar"></div>
     </div>
     <div class="col-xs-2">
       <div class="js-tree" data-tree-source="/api/projects/recents" data-tree-name="recents">
-        <h4>Utilizados Recentemente</h4>
+        <h4><%= t('recently_used') %></h4>
         <div class="tree-content"></div>
       </div>
 
       <div class="js-tree" data-tree-source="/api/projects/open" data-tree-name="open">
-        <h4>Projetos Ativos</h4>
-        <input name="search" class="tree-filter form-control" placeholder="Buscar..." autocomplete="off">
+        <h4><%= t('active_projects') %></h4>
+        <input name="search" class="tree-filter form-control" placeholder="<%= t('placeholder_search') %>" autocomplete="off">
         <div class="tree-content"></div>
       </div>
 
       <div class="js-tree" data-tree-source="/api/projects/closed" data-tree-name="closed">
-        <h4>Todos Projetos</h4>
-        <input name="search" class="tree-filter form-control" placeholder="Buscar..." autocomplete="off">
+        <h4><%= t('all_projects') %></h4>
+        <input name="search" class="tree-filter form-control" placeholder="<%= t('placeholder_search') %>" autocomplete="off">
         <div class="tree-content"></div>
       </div>
     </div>
@@ -35,10 +35,10 @@
 
 <div id="view-dialog" title="Info">
   <input type="hidden" class="view-dialog-id"/>
-  <div class="view-dialog-project">Projeto: <span></span></div>
-  <div class="view-dialog-subproject">SubProjeto: <span></span></div>
-  <div class="view-dialog-phase">Fase: <span></span></div>
-  <div class="view-dialog-client">Cliente: <span></span></div>
+  <div class="view-dialog-project"><%= t('app.project') %>: <span></span></div>
+  <div class="view-dialog-subproject"><%= t('app.subproject') %>: <span></span></div>
+  <div class="view-dialog-phase"><%= t('app.phase') %>: <span></span></div>
+  <div class="view-dialog-client"><%= t('app.client') %>: <span></span></div>
   <div class="view-dialog-hour"><span></span></div>
 </div>
 

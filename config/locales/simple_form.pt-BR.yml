@@ -18,7 +18,6 @@ pt-BR:
       project:
         client: 'Cliente'
         color: 'Cor'
-
   helpers:
     submit:
       client:

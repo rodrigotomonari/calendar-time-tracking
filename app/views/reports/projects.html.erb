@@ -4,11 +4,11 @@
   <thead>
   <tr>
     <% if params[:group_month] %>
-        <th>Ano</th>
-        <th>Mês</th>
+        <th><%= t('year') %></th>
+        <th><%= t('month') %></th>
     <% end %>
-    <th>Projeto</th>
-    <th>Horas consumidas</th>
+    <th><%= t('app.project') %></th>
+    <th><%= t('hours_spent') %></th>
   </tr>
   </thead>
   <% total = 0 %>

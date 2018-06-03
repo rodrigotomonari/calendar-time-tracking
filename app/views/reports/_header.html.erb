@@ -1,56 +1,68 @@
 <ul class="nav nav-tabs">
-  <li class="<%= action_name == 'index' ? 'active' : '' %>"><%= link_to 'Geral', reports_path(request.query_parameters) %></li>
-  <li class="<%= action_name == 'clients' ? 'active' : '' %>"><%= link_to 'Clientes', reports_clients_path(request.query_parameters) %></li>
-  <li class="<%= action_name == 'projects' ? 'active' : '' %>"><%= link_to 'Projetos', reports_projects_path(request.query_parameters) %></li>
-  <li class="<%= action_name == 'subprojects' ? 'active' : '' %>"><%= link_to 'Subprojetos', reports_subprojects_path(request.query_parameters) %></li>
-  <li class="<%= action_name == 'users' ? 'active' : '' %>"><%= link_to 'Usuários', reports_users_path(request.query_parameters) %></li>
-  <li class="<%= action_name == 'projects_users' ? 'active' : '' %>"><%= link_to 'Projetos / Usuários', reports_projects_users_path(request.query_parameters) %></li>
+  <li class="<%= action_name == 'index' ? 'active' : '' %>">
+    <%= link_to t('.nav_general'), reports_path(request.query_parameters) %>
+  </li>
+  <li class="<%= action_name == 'clients' ? 'active' : '' %>">
+    <%= link_to t('.nav_clients'), reports_clients_path(request.query_parameters) %>
+  </li>
+  <li class="<%= action_name == 'projects' ? 'active' : '' %>">
+    <%= link_to t('.nav_projects'), reports_projects_path(request.query_parameters) %>
+  </li>
+  <li class="<%= action_name == 'subprojects' ? 'active' : '' %>">
+    <%= link_to t('.nav_subprojects'), reports_subprojects_path(request.query_parameters) %>
+  </li>
+  <li class="<%= action_name == 'users' ? 'active' : '' %>">
+    <%= link_to t('.nav_users'), reports_users_path(request.query_parameters) %>
+  </li>
+  <li class="<%= action_name == 'projects_users' ? 'active' : '' %>">
+    <%= link_to t('.nav_projects_users'), reports_projects_users_path(request.query_parameters) %>
+  </li>
 </ul>
 
 <hr>
 
 <form action="" class="form-inline">
   <div class="form-group form-group--gutter">
-    <%= label_tag :year, 'Ano' %>
+    <%= label_tag :year, t('year') %>
     <%= select_tag :year, options_for_select([''] + @years, params[:year]), class: 'form-control ' %>
   </div>
 
   <div class="form-group form-group--gutter">
-    <%= label_tag :month, 'Mês' %>
+    <%= label_tag :month, t('month') %>
     <%= select_tag :month, options_for_select([''] + @months, params[:month]), class: 'form-control' %>
   </div>
 
   <% if action_name != 'projects_users' %>
 
       <div class="form-group form-group--gutter">
-        <%= label_tag :day, 'Dia' %>
+        <%= label_tag :day, t('day') %>
         <%= select_tag :day, options_for_select([''] + @days, params[:day]), class: 'form-control' %>
       </div>
 
       <div class="form-group form-group--gutter">
-        <%= label_tag :group_month, 'Agrupar Mês?' %>
+        <%= label_tag :group_month, t('.group_month') %>
         <%= check_box_tag :group_month, true, params[:group_month] %>
       </div>
 
       <div class="form-group form-group--gutter">
-        <%= label_tag :project, 'Projeto' %>
+        <%= label_tag :project, t('app.project') %>
         <%= select_tag :project, options_for_select([''] + @projects, params[:project]), class: 'form-control select2' %>
       </div>
 
       <div class="form-group form-group--gutter">
-        <%= label_tag :subproject, 'Subprojeto' %>
+        <%= label_tag :subproject, t('app.subproject') %>
         <%= select_tag :subproject, options_for_select([''] + @subprojects, params[:subproject]), class: 'form-control select2' %>
       </div>
 
   <% end %>
 
   <div class="form-group form-group--gutter">
-    <%= label_tag :user, 'Usuário' %>
+    <%= label_tag :user, t('app.user') %>
     <%= select_tag :user, options_for_select([''] + @users, params[:user]), class: 'form-control' %>
   </div>
 
   <div class="form-group form-group--gutter">
-    <%= button_tag 'Filtrar', class: 'btn btn-primary' %>
+    <%= button_tag t('filter'), class: 'btn btn-primary' %>
   </div>
 
 </form>
