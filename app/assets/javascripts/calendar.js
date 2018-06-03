@@ -265,7 +265,7 @@ $(document).ready(function () {
 
   function duplicate_event(event) {
     var clone = {
-      title: "Clone",
+      title: event.title,
       client: event.client,
       phase: event.phase,
       subproject: event.subproject,
