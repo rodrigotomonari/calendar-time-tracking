@@ -16,7 +16,13 @@ Rails.application.routes.draw do
   resources :phases
   resources :clients
 
-  get 'reports', to: 'reports#index'
+  scope 'reports' do
+    get '/', to: 'reports#index', as: :reports
+    get '/clients', to: 'reports#clients', as: :reports_clients
+    get '/projects', to: 'reports#projects', as: :reports_projects
+    get '/subprojects', to: 'reports#subprojects', as: :reports_subprojects
+    get '/users', to: 'reports#users', as: :reports_users
+  end
 
   devise_for :users, skip: [:registrations], controllers: {
     sessions:  'users/sessions',
